@@ -57,9 +57,24 @@ resource "aws_route_table" "ecomm_Public_route" {
   }
 }
 
-#routetableassociation
+#publicroutetableassociation
 
 resource "aws_route_table_association" "ecomm_public_association" {
   subnet_id      = aws_subnet.ecomm_public_sn.id
   route_table_id = aws_route_table.ecomm_Public_route.id
+}
+
+#private_routetables
+resource "aws_route_table" "ecomm_Private_route" {
+  vpc_id = aws_vpc.ecomm.id
+
+  tags = {
+    Name = "ecommprivateroute"
+  }
+}
+
+#privateroutetableassociation
+resource "aws_route_table_association" "ecomm_private_association" {
+  subnet_id      = aws_subnet.ecomm_private_sn.id
+  route_table_id = aws_route_table.ecomm_Private_route.id
 }
