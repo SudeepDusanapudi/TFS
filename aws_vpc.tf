@@ -78,3 +78,61 @@ resource "aws_route_table_association" "ecomm_private_association" {
   subnet_id      = aws_subnet.ecomm_private_sn.id
   route_table_id = aws_route_table.ecomm_Private_route.id
 }
+
+#public Nacl
+
+resource "aws_network_acl" "ecomm_public_nacl" {
+  vpc_id = aws_vpc.ecomm.id
+  subnet_ids = [aws_subnet.ecomm_public_sn.id]
+
+  egress {
+    protocol   = "tcp"
+    rule_no    = 200
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  tags = {
+    Name = "ecommpublic_Nacl"
+  }
+}
+
+#private Nacl
+
+resource "aws_network_acl" "ecomm_private_nacl" {
+  vpc_id = aws_vpc.ecomm.id
+  subnet_ids = [aws_subnet.ecomm_private_sn.id]
+
+  egress {
+    protocol   = "tcp"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 65535
+  }
+
+  tags = {
+    Name = "ecommprivate_Nacl"
+  }
+}
