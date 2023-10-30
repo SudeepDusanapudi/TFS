@@ -56,3 +56,10 @@ resource "aws_route_table" "ecomm_Public_route" {
     Name = "ecommpublicroute"
   }
 }
+
+#routetableassociation
+
+resource "aws_route_table_association" "ecomm_public_association" {
+  subnet_id      = aws_subnet.ecomm_public_sn.id
+  route_table_id = aws_route_table.ecomm_Public_route.id
+}
